@@ -1,5 +1,5 @@
-use std::fs;
 use crate::utils::count_occurrences;
+use std::fs;
 
 pub fn get_sorted_cols() -> Result<Vec<Vec<String>>, std::io::Error> {
     let text = fs::read_to_string("inputs/day1.txt").unwrap();
