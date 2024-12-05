@@ -80,44 +80,26 @@ fn get_xmas_matches(x_coord: usize, y_coord: usize, rows: &Vec<&str>) -> i32 {
 
 fn get_x_mas_matches(x_coord: usize, y_coord: usize, rows: &Vec<&str>) -> i32 {
     let mut matches: i32 = 0;
-    // Ugliest piece of rust code ever written inc.
-    if check_direction_for_letter(x_coord, y_coord, rows, "NW", 'M').is_ok() {
-        if check_direction_for_letter(x_coord, y_coord, rows, "SE", 'S').is_ok() {
-            if check_direction_for_letter(x_coord, y_coord, rows, "NE", 'M').is_ok() {
-                if check_direction_for_letter(x_coord, y_coord, rows, "SW", 'S').is_ok() {
-                    matches += 1;
-                }
-            }
-        }
-    }
-    if check_direction_for_letter(x_coord, y_coord, rows, "NW", 'S').is_ok() {
-        if check_direction_for_letter(x_coord, y_coord, rows, "SE", 'M').is_ok() {
-            if check_direction_for_letter(x_coord, y_coord, rows, "NE", 'S').is_ok() {
-                if check_direction_for_letter(x_coord, y_coord, rows, "SW", 'M').is_ok() {
-                    matches += 1;
-                }
-            }
-        }
-    }
-    if check_direction_for_letter(x_coord, y_coord, rows, "NW", 'S').is_ok() {
-        if check_direction_for_letter(x_coord, y_coord, rows, "SE", 'M').is_ok() {
-            if check_direction_for_letter(x_coord, y_coord, rows, "NE", 'M').is_ok() {
-                if check_direction_for_letter(x_coord, y_coord, rows, "SW", 'S').is_ok() {
-                    matches += 1;
-                }
-            }
-        }
-    }
-    if check_direction_for_letter(x_coord, y_coord, rows, "NW", 'M').is_ok() {
-        if check_direction_for_letter(x_coord, y_coord, rows, "SE", 'S').is_ok() {
-            if check_direction_for_letter(x_coord, y_coord, rows, "NE", 'S').is_ok() {
-                if check_direction_for_letter(x_coord, y_coord, rows, "SW", 'M').is_ok() {
-                    matches += 1;
-                }
-            }
-        }
-    }
 
+    let patterns = vec![
+        vec![("NW", 'M'), ("SE", 'S'), ("NE", 'M'), ("SW", 'S')],
+        vec![("NW", 'S'), ("SE", 'M'), ("NE", 'S'), ("SW", 'M')],
+        vec![("NW", 'S'), ("SE", 'M'), ("NE", 'M'), ("SW", 'S')],
+        vec![("NW", 'M'), ("SE", 'S'), ("NE", 'S'), ("SW", 'M')],
+    ];
+
+    for pattern in patterns {
+        let mut valid = true;
+        for &(direction, letter) in &pattern {
+            if !check_direction_for_letter(x_coord, y_coord, rows, direction, letter).is_ok() {
+                valid = false;
+                break;
+            }
+        }
+        if valid {
+            matches += 1;
+        }
+    }
     matches
 }
 
