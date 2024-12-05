@@ -5,3 +5,4 @@ edition = "2021"
 
 [dependencies]
 fancy-regex = "0.14.0"
+phf = { version = "0.11.2", features = ["macros"] }
